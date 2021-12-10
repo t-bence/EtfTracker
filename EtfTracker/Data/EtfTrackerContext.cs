@@ -14,6 +14,6 @@ namespace EtfTracker.Data
 
         public DbSet<Transfer> Transfer { get; set; }
 
-        public DbSet<EtfTracker.Models.EtfPurchase> EtfPurchase { get; set; }
+        public DbSet<EtfPurchase> EtfPurchase { get; set; }
     }
 }

@@ -12,9 +12,9 @@ namespace EtfTracker.Pages.Etfs
 {
     public class CreateModel : PageModel
     {
-        private readonly EtfTracker.Data.EtfTrackerContext _context;
-
-        public CreateModel(EtfTracker.Data.EtfTrackerContext context)
+        private readonly EtfTrackerContext _context;
+        
+        public CreateModel(EtfTrackerContext context)
         {
             _context = context;
         }

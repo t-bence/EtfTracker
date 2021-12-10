@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EtfTracker.Models
@@ -16,25 +17,10 @@ namespace EtfTracker.Models
         [DataType(DataType.Currency)]
         public decimal EurPrice { get; set; }
 
-        public EtfType EtfType { get; set; }
-
         public int Year { get => Date.Year; }
 
+        public static readonly decimal Fee = 6.5m;
+
     }
 
-    public class EtfType
-    {
-        public int ID { get; set; }
-        public string Name { get; private set; }
-        public string ApiIdentifier { get; private set; }
-
-        protected EtfType(string name, string apiIdentifier)
-        {
-            Name = name;
-            ApiIdentifier = apiIdentifier;
-        }
-
-        public static EtfType SP500 = new("S&P 500", "XETRA:xxx");
-        public static EtfType WorldSmallCap = new("World Small Cap", "XETRA:xxx");
-    }
 }
