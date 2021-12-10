@@ -12,12 +12,10 @@ namespace EtfTracker.Models
 
         [Display(Name = "Amount (EUR)")]
         [Column(TypeName = "decimal(18, 2)")]
-        [DataType(DataType.Currency)]
         public decimal EurAmount { get; set; }
 
         [Display(Name = "EUR Rate (HUF)")]
         [Column(TypeName = "decimal(18, 2)")]
-        [DataType(DataType.Currency)]
         public decimal EurRateInHuf { get; set; }
 
         public decimal CostInHuf { get => EurAmount * EurRateInHuf; }
