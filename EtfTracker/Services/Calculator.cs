@@ -7,19 +7,19 @@ namespace EtfTracker.Services
     {
         private readonly EtfTrackerContext ctx;
 
-
         public decimal EurPrice { get; }
         public decimal EtfPrice { get; }
         public int NumberOfEtfs { get => ctx.EtfPurchase.Count(); }
         public decimal TotalHufSpent { get => ctx.Exchange.AsEnumerable().Sum(e => e.CostInHuf); }
         public decimal TotalEurBought { get => ctx.Exchange.Sum(e => e.EurAmount); }
-        public decimal TotalEtfCost { get => ctx.EtfPurchase.Sum(e => e.EurPrice + EtfPurchase.Fee);  }
+        public decimal TotalEtfCost { get => ctx.EtfPurchase.Sum(e => e.TotalCostEur);  }
         public decimal RemainingMoney { get => TotalEurBought - TotalEtfCost; }
         public decimal TotalValue { get => NumberOfEtfs * EtfPrice + RemainingMoney; }
         public decimal TotalValueHuf { get => TotalValue * EurPrice; }
         public decimal Gain { get => TotalValueHuf - TotalHufSpent; }
         public decimal GainPercent { get => TotalHufSpent == 0 ? 0.0m : Gain / TotalHufSpent * 100; }
-        public decimal AvgYearlyGain {  get => NumberOfEtfs == 0 ? 0.0m : ctx.EtfPurchase.AsEnumerable().Average(e => YearlyGain(e, EtfPrice)); }
+        public decimal AvgYearlyGain {  get => NumberOfEtfs == 0 ? 0.0m : 
+            ctx.EtfPurchase.AsEnumerable().Average(e => YearlyGain(e, EtfPrice)); }
         
 
 

@@ -20,6 +20,8 @@ namespace EtfTracker.Models
 
         public static readonly decimal Fee = 6.5m;
 
+        public decimal TotalCostEur { get => EurPrice + Fee; }
+
     }
 
 }
