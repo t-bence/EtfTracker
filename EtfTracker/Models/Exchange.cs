@@ -11,11 +11,9 @@ namespace EtfTracker.Models
         public DateTime Date { get; set; }
 
         [Display(Name = "Amount (EUR)")]
-        [Column(TypeName = "decimal(18, 2)")]
         public decimal EurAmount { get; set; }
 
         [Display(Name = "EUR Rate (HUF)")]
-        [Column(TypeName = "decimal(18, 2)")]
         public decimal EurRateInHuf { get; set; }
 
         public decimal CostInHuf { get => EurAmount * EurRateInHuf; }

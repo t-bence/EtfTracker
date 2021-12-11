@@ -13,7 +13,6 @@ namespace EtfTracker.Models
         public DateTime Date { get; set; }
 
         [Display(Name = "Price (EUR)")]
-        [Column(TypeName = "decimal(18, 2)")]
         public decimal EurPrice { get; set; }
 
         public int Year { get => Date.Year; }

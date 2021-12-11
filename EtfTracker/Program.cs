@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<EtfTrackerContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("EtfTrackerContext")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("EtfTrackerContext")));
 builder.Services.AddScoped(typeof(Calculator));
 builder.Services.AddScoped<IEtfPriceProvider, DummyEtfPriceProvider>();
 builder.Services.AddScoped<IExchangeRateProvider, DummyExchangeRateProvider>();
