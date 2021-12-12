@@ -2,16 +2,14 @@ namespace EtfTracker.Modules.ApiHandlerModule
 {
     public class ApiHandler
     {
-        private IConfiguration configuration;
-        public ApiHandler(IConfiguration configuration)
+        private string apiKey;
+        public ApiHandler(string apiKey)
         {
-            this.configuration = configuration;
+            this.apiKey = apiKey;
         }
 
-        public T GetData<T>(string apiBaseUrl, string configKey)
+        public T GetData<T>(string apiBaseUrl)
         {
-            string apiKey = configuration.GetValue<string>(configKey);
-            
             var url = string.Format(apiBaseUrl, apiKey);
 
             T data;

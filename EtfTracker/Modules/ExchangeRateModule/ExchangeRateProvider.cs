@@ -1,25 +1,24 @@
 ﻿using EtfTracker.Modules;
 using EtfTracker.Modules.ApiHandlerModule;
 
-namespace RazorPagesMovie.Modules.ExchangeRateModule
+namespace EtfTracker.Modules.ExchangeRateModule
 {
-    public class ExchangeRateApiProvider : IExchangeRateProvider
+    public class ExchangeRateProvider : IExchangeRateProvider
     {
-        string apiKey = "ExchangeRateApi:Key";
+        string apiKeySource = "ApiKeys:ExchangeRateApi";
         string apiUrl = "https://v6.exchangerate-api.com/v6/{0}/pair/EUR/HUF";
-        private IConfiguration configuration;
+        private string apiKey { get; set; }
 
-
-        public ExchangeRateApiProvider(IConfiguration configuration)
+        public ExchangeRateProvider(IConfiguration configuration)
         {
-            this.configuration = configuration;
+            apiKey = configuration.GetValue<string>(apiKeySource);
         }
 
         public decimal GetEurPriceInHuf()
         {
-            var handler = new ApiHandler(configuration);
+            var handler = new ApiHandler(apiKey);
 
-            var exchangeData = handler.GetData<ExchangeData>(apiUrl, apiKey);
+            var exchangeData = handler.GetData<ExchangeData>(apiUrl);
 
             return exchangeData.conversion_rate;
         }
