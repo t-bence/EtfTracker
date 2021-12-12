@@ -5,6 +5,9 @@
 
 # Custom
 *.db
+*.db-shm
+*.db-wal
+appSecrets.json
 
 # User-specific files
 *.rsuser

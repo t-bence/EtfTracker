@@ -1,4 +1,4 @@
-﻿using EtfTracker.Services;
+﻿using EtfTracker.Modules;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

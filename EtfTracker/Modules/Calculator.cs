@@ -1,7 +1,7 @@
 ﻿using EtfTracker.Data;
 using EtfTracker.Models;
 
-namespace EtfTracker.Services
+namespace EtfTracker.Modules
 {
     public class Calculator
     {

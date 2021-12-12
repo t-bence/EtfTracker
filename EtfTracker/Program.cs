@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using EtfTracker.Data;
-using EtfTracker.Services;
+using EtfTracker.Modules;
+using EtfTracker.Modules.EtfPriceModule;
+using EtfTracker.Modules.ExchangeRateModule;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddJsonFile("appSecrets.json", optional: false);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -11,8 +13,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<EtfTrackerContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("EtfTrackerContext")));
 builder.Services.AddScoped(typeof(Calculator));
-builder.Services.AddScoped<IEtfPriceProvider, DummyEtfPriceProvider>();
-builder.Services.AddScoped<IExchangeRateProvider, DummyExchangeRateProvider>();
+builder.Services.AddScoped<IEtfPriceProvider, EtfPriceProvider>();
+builder.Services.AddScoped<IExchangeRateProvider, ExchangeRateProvider>();
 
 var app = builder.Build();
 
