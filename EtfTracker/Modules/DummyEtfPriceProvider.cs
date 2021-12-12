@@ -1,4 +1,4 @@
-﻿namespace EtfTracker.Services
+﻿namespace EtfTracker.Modules
 {
     public class DummyEtfPriceProvider : IEtfPriceProvider
     {

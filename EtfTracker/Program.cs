@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using EtfTracker.Data;
-using EtfTracker.Services;
+using EtfTracker.Modules;
 
 var builder = WebApplication.CreateBuilder(args);
 
