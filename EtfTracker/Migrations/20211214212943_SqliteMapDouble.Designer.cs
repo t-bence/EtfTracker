@@ -3,6 +3,7 @@ using System;
 using EtfTracker.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EtfTracker.Migrations
 {
     [DbContext(typeof(EtfTrackerContext))]
-    partial class EtfTrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20211214212943_SqliteMapDouble")]
+    partial class SqliteMapDouble
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.0");
