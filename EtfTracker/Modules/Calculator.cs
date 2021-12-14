@@ -1,5 +1,6 @@
 ﻿using EtfTracker.Data;
 using EtfTracker.Models;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace EtfTracker.Modules
 {
@@ -25,11 +26,26 @@ namespace EtfTracker.Modules
 
 
         public Calculator(EtfTrackerContext context, IExchangeRateProvider exchangeRateProvider,
-            IEtfPriceProvider etfPriceProvider)
+            IEtfPriceProvider etfPriceProvider, IMemoryCache memoryCache)
         {
             ctx = context;
-            EurPrice = exchangeRateProvider.GetEurPriceInHuf();
-            EtfPrice = etfPriceProvider.GetEtfPriceInEur();
+            EurPrice = memoryCache.GetOrCreate<decimal>(
+                CacheKeys.EurPrice,
+                cacheEntry => 
+                {
+                    cacheEntry.SlidingExpiration = TimeSpan.FromHours(3);
+                    return exchangeRateProvider.GetEurPriceInHuf();
+                }
+            );
+
+            EtfPrice = memoryCache.GetOrCreate<decimal>(
+                CacheKeys.EtfPrice,
+                cacheEntry =>
+                {
+                    cacheEntry.SlidingExpiration = TimeSpan.FromHours(3);
+                    return etfPriceProvider.GetEtfPriceInEur();
+                }
+            );
 
         }
 
@@ -39,5 +55,11 @@ namespace EtfTracker.Modules
             return (currentPrice - etf.EurPrice) / daysBoughtSince * 365.0m;
         }
 
+    }
+
+    public class CacheKeys
+    {
+        public static string EurPrice = "EurPrice";
+        public static string EtfPrice = "EtfPrice";
     }
 }
