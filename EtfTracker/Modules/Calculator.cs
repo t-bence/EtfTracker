@@ -21,7 +21,7 @@ namespace EtfTracker.Modules
         public decimal Gain { get => TotalValueHuf - TotalHufSpent; }
         public decimal GainPercent { get => TotalHufSpent == 0 ? 0.0m : Gain / TotalHufSpent * 100; }
         public decimal AvgYearlyGain {  get => NumberOfEtfs == 0 ? 0.0m : 
-            ctx.EtfPurchase.AsEnumerable().Average(e => YearlyGain(e, EtfPrice)); }
+            ctx.EtfPurchase.AsEnumerable().Average(e => YearlyGain(e)); }
         
 
 
@@ -29,37 +29,37 @@ namespace EtfTracker.Modules
             IEtfPriceProvider etfPriceProvider, IMemoryCache memoryCache)
         {
             ctx = context;
-            EurPrice = memoryCache.GetOrCreate<decimal>(
-                CacheKeys.EurPrice,
-                cacheEntry => 
-                {
-                    cacheEntry.SlidingExpiration = TimeSpan.FromHours(3);
-                    return exchangeRateProvider.GetEurPriceInHuf();
-                }
-            );
 
-            EtfPrice = memoryCache.GetOrCreate<decimal>(
-                CacheKeys.EtfPrice,
-                cacheEntry =>
-                {
-                    cacheEntry.SlidingExpiration = TimeSpan.FromHours(3);
-                    return etfPriceProvider.GetEtfPriceInEur();
-                }
-            );
+            EurPrice = GetCached<decimal>(CacheKeys.EurPrice, exchangeRateProvider.GetEurPriceInHuf);
+
+            EtfPrice = GetCached<decimal>(CacheKeys.EtfPrice, etfPriceProvider.GetEtfPriceInEur);
+
+            T GetCached<T>(string key, Func<T> function)
+            {
+                return memoryCache.GetOrCreate<T>(
+                    key,
+                    cacheEntry =>
+                    {
+                        cacheEntry.SlidingExpiration = TimeSpan.FromHours(3);
+                        return function();
+                    }
+                );
+            }
 
         }
 
-        private static decimal YearlyGain(EtfPurchase etf, decimal currentPrice)
+        private decimal YearlyGain(EtfPurchase etf)
         {
+            const decimal DAYS_IN_YEAR = 365.0m;
             decimal daysBoughtSince = (decimal) (DateTime.Now - etf.Date).TotalDays;
-            return (currentPrice - etf.EurPrice) / daysBoughtSince * 365.0m;
+            return (EtfPrice - etf.EurPrice) / daysBoughtSince * DAYS_IN_YEAR;
         }
 
     }
 
     public class CacheKeys
     {
-        public static string EurPrice = "EurPrice";
-        public static string EtfPrice = "EtfPrice";
+        public static string EurPrice = nameof(EurPrice);
+        public static string EtfPrice = nameof(EtfPrice);
     }
 }
