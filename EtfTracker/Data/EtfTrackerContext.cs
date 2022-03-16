@@ -19,18 +19,18 @@ namespace EtfTracker.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Exchange>()
-                .Property(e => e.EurAmount)
+                .Property(e => e.Amount)
                 .HasConversion<double>();
             builder.Entity<Exchange>()
-                .Property(e => e.EurRateInHuf)
+                .Property(e => e.OneEurInHuf)
                 .HasConversion<double>();
 
             builder.Entity<Transfer>()
-                .Property(e => e.EurAmount)
+                .Property(e => e.Amount)
                 .HasConversion<double>();
 
             builder.Entity<EtfPurchase>()
-                .Property(e => e.EurPrice)
+                .Property(e => e.Price)
                 .HasConversion<double>();
         }
     }

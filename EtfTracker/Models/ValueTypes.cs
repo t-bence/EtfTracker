@@ -11,6 +11,8 @@ namespace EtfTracker.Models
             Currency = currency;
         }
 
+        public bool IsZero => Value == 0;
+
         public static MoneyValue operator +(MoneyValue left, MoneyValue right)
         {
             if (left.Currency != right.Currency)
@@ -19,6 +21,30 @@ namespace EtfTracker.Models
             }
             return new MoneyValue(left.Value + right.Value, left.Currency);
         }
+
+        public static MoneyValue operator -(MoneyValue left, MoneyValue right)
+        {
+            if (left.Currency != right.Currency)
+            {
+                throw new CurrencyMismatchException("Only values of the same currency can be added!");
+            }
+            return new MoneyValue(left.Value - right.Value, left.Currency);
+        }
+
+        public static MoneyValue operator *(MoneyValue moneyValue, int times)
+        {
+            return new MoneyValue(moneyValue.Value * times, moneyValue.Currency);
+        }
+
+        public static decimal operator /(MoneyValue left, MoneyValue right)
+        {
+            if (left.Currency != right.Currency)
+            {
+                throw new CurrencyMismatchException("Only values of the same currency can be divided!");
+            }
+            return left.Value / right.Value;
+        }
+
 
         public static MoneyValue operator *(MoneyValue moneyValue, ExchangeRate exchangeRate)
         {
@@ -40,6 +66,7 @@ namespace EtfTracker.Models
         public EurValue(decimal value) : base(value, Currency.EUR)
         {
         }
+
     }
 
     public class HufValue : MoneyValue

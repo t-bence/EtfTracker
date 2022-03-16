@@ -13,13 +13,13 @@ namespace EtfTracker.Models
         public DateTime Date { get; set; }
 
         [Display(Name = "Price (EUR)")]
-        public decimal EurPrice { get; set; }
+        public EurValue Price { get; set; }
 
         public int Year { get => Date.Year; }
 
-        public static readonly decimal Fee = 6.5m;
+        public static readonly EurValue Fee = new EurValue(6.5m);
 
-        public decimal TotalCostEur { get => EurPrice + Fee; }
+        public EurValue TotalCostEur { get => (EurValue)(Price + Fee); }
 
     }
 

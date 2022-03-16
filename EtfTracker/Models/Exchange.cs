@@ -11,11 +11,11 @@ namespace EtfTracker.Models
         public DateTime Date { get; set; }
 
         [Display(Name = "Amount (EUR)")]
-        public decimal EurAmount { get; set; }
+        public EurValue Amount { get; set; }
 
         [Display(Name = "EUR Rate (HUF)")]
-        public decimal EurRateInHuf { get; set; }
+        public ExchangeRate OneEurInHuf { get; set; }
 
-        public decimal CostInHuf { get => EurAmount * EurRateInHuf; }
+        public HufValue CostInHuf { get => (HufValue)(Amount * OneEurInHuf); }
     }
 }
